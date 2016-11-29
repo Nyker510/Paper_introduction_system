@@ -1,5 +1,6 @@
 # Paper_introduction_system
 Paper and Book introduction system powered by Django.
+
 本システムは論文や参考書の輪読を研究室の複数人で行うときに，他の人の担当範囲を効率よく把握するために作成しました．
 
 具体的には，
