@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block title %}最適化数理分野 論文紹介用リスト{% endblock title %}
+
+
+{% block extrahead %}
+<script>
+$(function() {
+  $('.del_confirm').on('click', function () {
+     $("#del_pk").text($(this).attr("pk"));
+     $('#del_url').attr('href', $(this).attr("url"));
+  });
+});
+</script>
+<style>
+table {
+table-layout:fixed;
+margin-top: 8px;
+margin-left: 0px;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<html leftmargin="10">
+  <h3 class="page-header">論文・参考書紹介用リスト</h3>
+  <p>
+    過去3年間に紹介された論文は橙色に表示しています。<br>
+    現在、研究室内の他のメンバーが取り組んでいる論文は黄色に表示しています。<br>
+    ヘッダ行の三角マークをクリックすればソートを行います。<br>
+    論文紹介に向けて勉強する際には、他のメンバーとの重複を避けるために、Control->編集->Readingに自分の名前を入れるようご協力お願いします。<br>
+    <br>
+  </p>
+    <table class="table table-bordered" width="1380">
+      <thead>
+        <tr>
+	  <!--<th>ID</th>-->
+          <th width="150">Title<a href="?sort_by=title&order=ascending">▲</a><a href="?sort_by=title&order=descending">▼</a></th>
+	  <th width="150">Authors<a href="?sort_by=authors&order=ascending">▲</a><a href="?sort_by=title&order=descending">▼</a></th>
+	  <th width="150">References<a href="?sort_by=references&order=ascending">▲</a><a href="?sort_by=references&order=descending">▼</a></th>
+	  <th width="80">Pages<a href="?sort_by=num_of_pages&order=ascending">▲</a><a href="?sort_by=num_of_pages&order=descending">▼</a></th>
+	  <th width="80">year<a href="?sort_by=year&order=ascending">▲</a><a href="?sort_by=year&order=descending">▼</a></th>
+	  <th width="600">abstract</th>
+	  <th width="200">URL</th>
+	  <th width="150">Reading<a href="?sort_by=reading&order=ascending">▲</a><a href="?sort_by=reading&order=descending">▼</a></th>
+	  <th width="80">Note</th>
+	  <th width="160">Control</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for paper in papers %}
+        <tr bgcolor={{paper.color}}>
+	  <!--<td>{{ paper.id }}</td>-->
+          <td>{{ paper.title }}</td>
+	  <td>{{ paper.authors }} </td>
+	  <td>{{ paper.references }} </td>
+	  <td>{{ paper.pages }}<br>{% ifnotequal paper.num_of_pages None %} ({{paper.num_of_pages}}){% endifnotequal %}</td>
+	  <td>{% ifnotequal paper.year 0 %}{{ paper.year }}{% endifnotequal %}</td>
+	  <td>{{ paper.abstract }}</td>
+	  <td style="word-break:break-all"><a href={{ paper.URL }}>{{paper.URL}}</a></td>
+	  <td>{{ paper.reading }}</td>
+	  <td>{{ paper.note }}</td>
+          <td>
+            <a href="{% url 'cms:paper_mod' paper_id=paper.id %}" class="btn btn-default btn-sm">編集</a>
+	    <button class="btn btn-default btn-sm del_confirm" data-toggle="modal" data-target="#deleteModal" pk="{{ paper.id }}" url="{% url 'cms:paper_del' paper_id=paper.id %}">削除</button>
+	    <a href="{% url 'cms:report_list' paper_id=paper.id %}" class="btn btn-default btn-sm btn-primary">要約一覧 ({{ paper.num_of_reports }})</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <a href="{% url 'cms:paper_add' %}" class="btn btn-default btn-sm">論文の追加</a><br>
+    <a href="{% url 'cms:admin_message'%}">管理者の方へ<a><br>
+	<a href="../../admin">データ管理</a>
+</html>
+
+{# 削除を確認するモーダル ダイアログ #}
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="deleteModalLabel">確認</h4>
+      </div>
+      <div class="modal-body">
+	<!--        <p>Reporter: <span id="del_pk"></span> を削除しますか？</p> -->
+	<p>本当に削除しますか？</p>
+      </div>
+      <div class="modal-footer">
+        <a href="#" class="btn btn-primary" id="del_url">OK</a>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load bootstrap %}
+
+{% block title %}論文・参考書紹介要約の編集{% endblock title %}
+
+{% block content %}
+    <h3 class="page-header">論文紹介要約の編集</h3>
+    {% if report_id %}
+    <form action="{% url 'cms:report_mod' paper_id=paper_id report_id=report_id %}" method="post" class="form-horizontal" role="form" onkeypress="return event.Keycode != 13;">
+    {% else %}
+    <form action="{% url 'cms:report_add' paper_id=paper_id %}" method="post" class="form-horizontal" role="form" onkeypress="return event.Keycode != 13;">
+    {% endif %}
+      {% csrf_token %}
+      {{ form|bootstrap_horizontal }}
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <button type="submit" class="btn btn-primary">送信</button>
+        </div>
+      </div>
+    </form>
+    <a href="{% url 'cms:report_list' paper_id=paper_id %}" class="btn btn-default btn-sm">戻る</a>
+{% endblock content %}

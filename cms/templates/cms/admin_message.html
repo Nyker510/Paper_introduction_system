@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}論文・参考書紹介システム 運用者の方へ{% endblock title %}
+
+{% block content %}
+<h2>注意</h2>
+データの大幅な変更や，システムの変更を施す際には，事前にサーバ上のディレクトリ自体のバックアップを取っておくことをおすすめします．<br>
+本システムはDjangoとPython以外は，paperintro/だけで完結しているため，paperintro/さえ保存していれば復元が可能です．<br>
+
+<h2>環境構築</h2>
+新たなサーバ上で本システムを構築する際の注意点を載せています．<br>
+本システムは2016年現在，Ubuntu16.04上のpython3.5.2とDjangoで運用しています．<br>
+djangoは2016年現在では，pipによる次のコマンドでインストールできます．<br>
+sudo pip3 install django<br>
+sudo pip3 install django-bootstrap-form<br>
+
+paperintroディレクトリ内で，次のコマンドを実行すれば，本システムを起動できます．<br>
+python3 manage.py runserver [IPアドレス]:[ポート]
+
+
+<h2>データベース</h2>
+論文・参考書のデータベースはSQLite3形式で，~/paperintro/db.sqlite3です．<br>
+http://IPアドレス:ポート/admin/には論文データを管理するためのページが準備されています．<br>
+SQLite3を直接操作することが難しい場合は，管理者ページから一括のデータ操作が可能となっています．<br>
+
+<h2>その他インタフェース</h2>
+HTMLに関する設定は，~/paperintro/cms/templates/cms/*.htmlで変更してください．<br>
+SQLiteとのインタフェースとしてDjangoを利用しているため，データベースの構造・ソーティング機能，その他新しい機能の追加を行う際にはcms下のPythonプログラムを変更してください．<br>
+{% endblock content %}
