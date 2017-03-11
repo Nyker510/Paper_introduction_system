@@ -1,5 +1,8 @@
 {% extends "base.html" %}
 {% load bootstrap %}
+{% block extrahead %}
+ {{ form.media }}
+{% endblock %}
 
 {% block title %}論文・参考書紹介要約の編集{% endblock title %}
 

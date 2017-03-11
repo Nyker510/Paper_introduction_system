@@ -25,7 +25,10 @@ SECRET_KEY = '*)d0wli-c_h#lo1(o4j=jj#=)3lb06(vd!%$cpnw&+5k-9o)nw'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['10.232.98.80']
+ALLOWED_HOSTS = [
+    '10.232.98.80',
+    '127.0.0.1', # ローカルでrunserverするときのため
+]
 
 
 # Application definition
@@ -38,6 +41,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'bootstrapform',
+    'datetimewidget',
     'cms',
 )
 

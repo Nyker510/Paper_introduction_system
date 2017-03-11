@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.utils import timezone
 
 class Paper(models.Model):
     title = models.CharField('Title', max_length=1023)
@@ -18,7 +18,7 @@ class Report(models.Model):
     paper = models.ForeignKey(Paper,verbose_name='Paper',related_name='reports')
     reporter = models.CharField('Reporter', max_length=255)
     grade = models.CharField('Grade', max_length=32, blank=True)
-    date = models.CharField('Date', max_length=255)
+    date = models.DateField(default=timezone.now)
     motivations = models.TextField('Motivations', blank=True)
     contributions = models.TextField('Contributions', blank=True)
     questions = models.TextField('Questions and Future works', blank=True)
